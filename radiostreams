@@ -1,12 +1,15 @@
 http://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d96000.norewind.m3u8,BBC Radio 4 FM
 http://as-hls-ww-live.akamaized.net/pool_89021708/live/ww/bbc_radio_five_live/bbc_radio_five_live.isml/bbc_radio_five_live-audio%3d96000.norewind.m3u8,BBC Radio 5 Live
-http://as-hls-ww-live.akamaized.net/pool_89021708/live/ww/bbc_radio_five_live/bbc_radio_five_live.isml/bbc_radio_five_live-audio%3d96000.norewind.m3u8,BBC World Service
+http://as-hls-ww-live.akamaized.net/pool_87948813/live/ww/bbc_world_service/bbc_world_service.isml/bbc_world_service-audio%3d96000.norewind.m3u8,BBC World Service
 http://www.beatlesradio.com:8000/stream/1/,Beatles Radio
 https://id212139.securedata.net/bobskaradio/bobska.m3u,Bob's Ska Radio
+https://cbcradiolive.akamaized.net/hls/live/2041039/ES_R1MCG/master.m3u8,CBC Radio 1 Calgary
 https://cbcradiolive.akamaized.net/hls/live/2041044/ES_R1NCR/master.m3u8,CBC Radio 1 Corner Brook
 https://cbcradiolive.akamaized.net/hls/live/2041041/ES_R1MED/master.m3u8,CBC Radio 1 Edmonton
 https://cbcradiolive.akamaized.net/hls/live/2040987/ES_R1AHF/master.m3u8,CBC Radio 1 Halifax
+https://cbcradiolive.akamaized.net/hls/live/2041042/ES_R1MNN/master.m3u8,CBC Radio 1 Inuvik
 https://cbcradiolive.akamaized.net/hls/live/2040993/ES_R1EIQ/master.m3u8,CBC Radio 1 Iqaluit
+https://cbcradiolive.akamaized.net/hls/live/2041030/ES_R1EMT/master.m3u8,CBC Radio 1 Montreal
 https://cbcradiolive.akamaized.net/hls/live/2041049/ES_R1PPR/master.m3u8,CBC Radio 1 Prince George
 https://cbcradiolive.akamaized.net/hls/live/2041054/ES_R1SSA/master.m3u8,CBC Radio 1 Saskatoon
 https://cbcradiolive.akamaized.net/hls/live/2041035/ES_R1ETH/master.m3u8,CBC Radio 1 Thunder Bay

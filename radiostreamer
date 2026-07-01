@@ -1,15 +1,15 @@
 #!/bin/bash
 
-PLAYER="mpv" # use mpv, ffplay, or cvlc
+PLAYER="ffplay" # use mpv, ffplay, or cvlc
 STREAMS_FILE="$HOME/.config/radiostreams"
 OPTION1="Connect Internet Radio Stream"
 OPTION2="Stop Streaming"
 OPTION3="Edit Station List"
 OPTIONS="$OPTION1\n$OPTION2\n$OPTION3"
 FZF_COMMAND1='fzf --layout=reverse --header=Select:'
-ROFI_COMMAND1='rofi -i -dmenu -l 3 -p Select'
+ROFI_COMMAND1='rofi -dmenu -l 3 -p Select'
 FZF_COMMAND2='fzf --layout=reverse --header=Select:'
-ROFI_COMMAND2='rofi -i -dmenu -p Select'
+ROFI_COMMAND2='rofi -dmenu -p Select'
 FZF_COMMAND3="vim $STREAMS_FILE"
 ROFI_COMMAND3="x-terminal-emulator -e vim $STREAMS_FILE"
 
@@ -28,7 +28,7 @@ gui)
 esac
 
 start_player() {
-    killall -9 $PLAYER
+    killall -9 -q $PLAYER 2>/dev/null
     sleep 0.5
     echo "Connecting to ""$CHOICE"
     echo "Opening Stream: $CHOICE"
@@ -44,7 +44,6 @@ start_player() {
         --compressor-knee 3 \
         --compressor-makeup-gain 9 \
         >/dev/null 2>&1 &
-
     exit 0
 }
 
@@ -53,7 +52,7 @@ stop_player() {
     read -r RUNNING </tmp/stream
     echo "Closing Stream: $RUNNING"
     notify-send "Closing Stream: $RUNNING" &
-    killall -9 $PLAYER
+    killall -9 -q $PLAYER 2>/dev/null
 }
 
 # select option from first menu
@@ -61,14 +60,11 @@ SELECTED="$(echo -e "$OPTIONS" | $COMMAND1)"
 
 case $SELECTED in
 $OPTION1)
-    # read the list of internet audio streams
-    IFS=$'\n' read -rd '' -a STREAMS <<<"$(cat "$STREAMS_FILE")"
-
     # select a stream from the second menu
-    CHOICE="$(for i in "${STREAMS[@]}"; do echo "$i"; done | sed '/^$/d;/#.*/d' | awk -F ',' '{print $2}' | $COMMAND2)"
+    CHOICE="$($COMMAND2 < <(\cat "$STREAMS_FILE" | sed '/^$/d;/#.*/d' | awk -F ',' '{print $2}'))"
     [[ -z "$CHOICE" ]] && echo "No selection..." && exit 1
     # grep for the correct stream url
-    URL="$(for i in "${STREAMS[@]}"; do echo "$i"; done | grep "${CHOICE}" | awk -F ',' '{print $1}' | sed 's/^ /d;/#.*/d')" && start_player
+    URL="$(grep "${CHOICE}" <(\cat "$STREAMS_FILE") | awk -F ',' '{print $1}' | sed 's/^ /d;/#.*/d')" && start_player
     ;;
 $OPTION2)
     # cleanly stop the player

@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Copyright (c) 2025 by Philip Collier, github.com/AB9IL
+# This script is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version. There is NO warranty; not even for
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+# Run this script as a regular user
+
 PLAYER="ffplay" # use mpv, ffplay, or cvlc
 STREAMS_FILE="$HOME/.config/radiostreams"
 OPTION1="Connect Internet Radio Stream"
@@ -7,18 +16,18 @@ OPTION2="Stop Streaming"
 OPTION3="Edit Station List"
 OPTIONS="$OPTION1\n$OPTION2\n$OPTION3"
 FZF_COMMAND1='fzf --layout=reverse --header=Select:'
-ROFI_COMMAND1='rofi -dmenu -l 3 -p Select'
+FUZZEL_COMMAND1='fuzzel -d -w 50 -l 3 -p Select:'
 FZF_COMMAND2='fzf --layout=reverse --header=Select:'
-ROFI_COMMAND2='rofi -dmenu -p Select'
-FZF_COMMAND3="vim $STREAMS_FILE"
-ROFI_COMMAND3="x-terminal-emulator -e vim $STREAMS_FILE"
+FUZZEL_COMMAND2='fuzzel -d -p Select:'
+FZF_COMMAND3="$EDITOR $STREAMS_FILE"
+FUZZEL_COMMAND3="ptyxis --new-window -e $EDITOR $STREAMS_FILE"
 
 # interface based on commandline arguments
 case "$1" in
-gui)
-    COMMAND1=$ROFI_COMMAND1
-    COMMAND2=$ROFI_COMMAND2
-    COMMAND3=$ROFI_COMMAND3
+--gui)
+    COMMAND1=$FUZZEL_COMMAND1
+    COMMAND2=$FUZZEL_COMMAND2
+    COMMAND3=$FUZZEL_COMMAND3
     ;;
 *)
     COMMAND1=$FZF_COMMAND1
@@ -34,7 +43,7 @@ start_player() {
     echo "Opening Stream: $CHOICE"
     notify-send "Opening Stream: $CHOICE" &
     echo "$CHOICE" >/tmp/stream
-    [[ "$PLAYER" == "ffplay" ]] && $PLAYER -af acompressor=threshold=-26dB:ratio=5:attack=5:release=300:makeup=9 "$URL" -probesize 256 -nodisp >/dev/null 2>&1 &
+    [[ "$PLAYER" == "ffplay" ]] && $PLAYER -af acompressor=threshold=-26dB:ratio=5:attack=5:release=300:makeup=9 "$URL" -probesize 1024 -nodisp >/dev/null 2>&1 &
     [[ "$PLAYER" == "mpv" ]] && $PLAYER "$URL" -af "aformat=cl=stereo,acompressor=threshold=-26dB:ratio=5:attack=5:release=300:makeup=9,dynaudnorm=p=0.8:s=10" >/dev/null 2>&1 &
     [[ "$PLAYER" == "cvlc" ]] && $PLAYER "$URL" --audio-filter compressor \
         --compressor-attack 1.5 \
